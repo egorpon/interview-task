@@ -1,0 +1,61 @@
+=== ЧАСТИНА 2: Клас Bank ===
+
+Реалізуйте клас-контейнер для управління множиною банківських рахунків:
+
+Управління рахунками:
+- create_account(account_number, initial_balance=0) - створення нового рахунку
+- get_account(account_number) - пошук та повернення рахунку за номером
+- delete_account(account_number) - видалення рахунку (дозволено тільки при нульовому балансі)
+
+Банківські операції:
+- deposit_to_account(account_number, amount) - поповнення рахунку за номером
+- withdraw_from_account(account_number, amount) - зняття коштів з рахунку
+- transfer_between_accounts(from_account, to_account, amount) - переказ між рахунками
+
+Аналітичні методи:
+- get_total_balance() - сума балансів всіх рахунків у банку
+- get_richest_account() - рахунок з найбільшим балансом
+- get_accounts_by_balance_range(min_balance, max_balance) - фільтрація рахунків за діапазоном
+
+Інтеграція з Python:
+Клас Bank повинен підтримувати стандартні Python протоколи:
+- Можливість ітерування по всіх рахунках через цикл for
+- Отримання кількості рахунків через вбудовану функцію len()
+- Доступ до рахунку за номером через квадратні дужки: bank[account_number]
+
+=== БОНУСНІ ЗАВДАННЯ ===
+
+1. Персистентність даних:
+   - Додайте можливість збереження поточного стану банку у файл (формат JSON)
+   - Реалізуйте завантаження раніше збереженого стану з файлу
+   
+2. Транзакційність операцій:
+   - Реалізуйте метод bulk_operation(operations) для виконання списку операцій
+   - Якщо будь-яка операція зі списку не вдається, всі попередні зміни мають бути скасовані
+   - Формат операцій: [("deposit", "ACC001", 100), ("transfer", "ACC001", "ACC002", 50)]
+
+=== ПРИКЛАД ВИКОРИСТАННЯ ===
+
+# Створення банку та рахунків
+bank = Bank()
+acc1 = bank.create_account("ACC001", 1000)
+acc2 = bank.create_account("ACC002", 500)
+
+# Операції
+bank.deposit_to_account("ACC001", 200)
+bank.transfer_between_accounts("ACC001", "ACC002", 300)
+
+# Аналітика
+print(f"Total balance: {bank.get_total_balance()}")
+print(f"Richest account: {bank.get_richest_account()}")
+
+# Ітерація по рахунках
+for account in bank:
+    print(account)
+
+# Доступ через індекс
+account = bank["ACC001"]
+print(f"Account balance: {account.balance}")
+
+# Кількість рахунків
+print(f"Number of accounts: {len(bank)}")
