@@ -8,22 +8,22 @@ class WithdrawException(Exception):
 class TransactionLog:
     def __repr__(self):
         return (
-            f"Time: {self.time}; Type: {self.transaction_type}; Amount: {self.amount}"
+            f"Time: {self.time}; Type: {self.transaction_type}; Amount: {self.balance}"
         )
 
-    def __init__(self, transaction_type, amount):
+    def __init__(self, transaction_type, balance):
         self.time = datetime.datetime.now()
         self.transaction_type = transaction_type
-        self.amount = amount
+        self.balance = balance
 
 
 class BankAccount:
     def __repr__(self):
-        return f"Your account number is {self.account_number}, your balance is {self.amount}"
+        return f"Account: {self.account_number}"
 
-    def __init__(self, account_number, amount=0):
+    def __init__(self, account_number, balance=0):
         self.account_number = account_number
-        self.amount = amount
+        self.balance = balance
         self.__transaction_history = []
 
     def log(self, type_of_operation, num):
@@ -31,13 +31,13 @@ class BankAccount:
         self.__transaction_history.append(trasaction)
 
     def deposit(self, num):
-        self.amount += num
+        self.balance += num
         self.log("deposit", num)
 
     def withdraw(self, num):
-        if self.amount < num:
+        if self.balance < num:
             raise WithdrawException("You don't have much money")
-        self.amount -= num
+        self.balance -= num
         self.log("withdraw", num)
 
     def get_transaction_history(self):
@@ -45,4 +45,4 @@ class BankAccount:
 
     @property
     def current_amount(self):
-        return self.amount
+        return self.balance
