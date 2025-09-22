@@ -1,4 +1,5 @@
 from bank_account import BankAccount, TransactionLog
+import json
 
 
 class Bank:
@@ -35,15 +36,43 @@ class Bank:
     def get_richest_account(self):
         return max(self.bank_accounts.values(), key=lambda x: x.balance)
 
+    def save_to_json(self):
+        data = {
+            "bank_accounts": {
+                acc_num: {"balance": acc.balance}
+                for acc_num, acc in self.bank_accounts.items()
+            }
+        }
+        with open("bank_stats.json", mode="w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4)
+
+    def load_from_json(self, filename="bank_stats.json"):
+        with open(filename, mode="r", encoding="utf-8") as f:
+            data = json.load(f)
+        self.bank_accounts = {
+            acc_num: BankAccount(acc_num, acc["balance"])
+            for acc_num, acc in data["bank_accounts"].items()
+        }
+
 
 bank = Bank()
 acc1 = bank.create_account("ACC001", 1000)
 acc2 = bank.create_account("ACC002", 500)
 
+bank.save_to_json()
+bank.load_from_json()
+
 bank.transfer_between_accounts("ACC001", "ACC002", 300)
+
+account = bank["ACC001"]
+print(account)
+print(f"Account balance: {account.balance}")
+
+print(f"Number of accounts: {len(bank)}")
 
 for account in bank.bank_accounts:
     print(account)
+
 
 print(f"Total balance: {bank.get_total_balance()}")
 print(f"Richest account: {bank.get_richest_account()}")
@@ -51,9 +80,3 @@ print(f"Richest account: {bank.get_richest_account()}")
 
 for account in bank:
     print(account)
-
-account = bank["ACC001"]
-print(account)
-print(f"Account balance: {account.balance}")
-
-print(f"Number of accounts: {len(bank)}")

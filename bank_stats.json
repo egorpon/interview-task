@@ -1,0 +1,10 @@
+{
+    "bank_accounts": {
+        "ACC001": {
+            "balance": 700
+        },
+        "ACC002": {
+            "balance": 800
+        }
+    }
+}
