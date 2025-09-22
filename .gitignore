@@ -6,6 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+/c/task/task
+/c/task/bank_stats.json
+
 # Distribution / packaging
 .Python
 build/
