@@ -8,7 +8,7 @@ class WithdrawException(Exception):
 class TransactionLog:
     def __repr__(self):
         return (
-            f"Time: {self.time}; Type: {self.transaction_type}; Amount: {self.balance}"
+            f"TransactionLog(time={self.time}, transaction_type={self.transaction_type}, balance={self.balance}"
         )
 
     def __init__(self, transaction_type, balance):

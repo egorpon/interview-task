@@ -1,6 +1,8 @@
 from bank_account import BankAccount, TransactionLog
 import json
 
+class TransferMoneyExcpetion(Exception):
+    pass
 
 class Bank:
     def __init__(self):
@@ -25,8 +27,10 @@ class Bank:
         acc.deposit(balance)
 
     def transfer_between_accounts(self, from_acc_num, to_acc_num, balance):
-        from_acc = self.bank_accounts.get(from_acc_num)
-        to_acc = self.bank_accounts.get(to_acc_num)
+        from_acc = self.bank_accounts.get(from_acc_num, None)
+        to_acc = self.bank_accounts.get(to_acc_num, None)
+        if from_acc is None or to_acc is None: 
+            raise TransferMoneyExcpetion(f'Provided account not found')
         from_acc.withdraw(balance)
         to_acc.deposit(balance)
 
